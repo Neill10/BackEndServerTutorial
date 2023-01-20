@@ -51,25 +51,62 @@ app.post('/api/courses', (req,res) => {
 });
   
 //HTTP PUT requests
-//here we need the specific id of the course we want to update
+//The request id has to be equal to json request id.
 app.put('/api/courses/:id', (req,res)=>{
-    //Write the code in order to look up the course, if not existing return a 404
-        //otherwise 
-                //update the course
-                //return the updated course
+    //req.params.id is equal to the id of localhost:3000/api/courses/:id.
+    //req.body.id is equal to the id provided in the JSON.
     const courseExist = courses.find(c=> c.id === parseInt(req.params.id));
     if(!courseExist){
         res.status(404).send("The course with the given ID was not found");
     }
     else{
-        //res.send(req.body.name);
-        res.send(courses);
-        console.log("changed " + courses[req.body.id-1].name + " to " + req.body.name);
-
-        //courses[req.body.id - 1].name = req.body.name;
+        if(req.body.id != req.params.id){
+            res.send("Request ID is not equal to JSON ID!")
+        }
+        else{
+        //var previous = courses[req.body.id - 1].name;
+        courses[req.body.id - 1].name = req.body.name;
+        //finds the specfic course
+        var selectedCourse = "Empty";
+        for(course of courses){
+            if(course.id == req.params.id){
+                selectedCourse = course;
+            }
+        }
+        res.send(selectedCourse);
+        //console.log("changed " + previous + " to " + req.body.name);   
+        }
     }          
 });
-    
+//HTTP DELETE requests
+app.delete('/api/courses/:id', (req,res)=>{
+    //code the following logic
+    //look up the course by id
+    //return 404 if does not exist
+    //delete the course by index HINT: use the indexOf() and splice() methods
+    // return the response to the client the course that was deleted
+
+    //finds if course id exists
+    const courseExist = courses.find(c=> c.id === parseInt(req.params.id));
+    if(!courseExist){
+        res.status(404).send("The course with the given ID was not found");
+    }
+    else{
+        if(req.body.id != req.params.id){
+            res.send("Request ID is not equal to JSON ID!")
+        }
+        else{
+            //finds the index of the course that matches the ID and then splices the index (removes)
+            var removedCourse = courses.find(c => c.id == req.params.id)
+            console.log(courses.indexOf(removedCourse));
+            console.log(courses.splice(courses.indexOf(removedCourse)));
+            res.send(removedCourse +"<br>" + courses);
+        }
+    }  
+
+
+});
+
 
 app.listen(3000,()=>{
     console.log("Listening on port 3000 ... ");
