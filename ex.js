@@ -66,14 +66,14 @@ app.put('/api/courses/:id', (req,res)=>{
         else{
         //var previous = courses[req.body.id - 1].name;
         courses[req.body.id - 1].name = req.body.name;
-        //finds the specfic course
+        //finds the specific course
         var selectedCourse = "Empty";
         for(course of courses){
             if(course.id == req.params.id){
                 selectedCourse = course;
             }
         }
-        res.send(selectedCourse);
+        res.send(courses);
         //console.log("changed " + previous + " to " + req.body.name);   
         }
     }          
@@ -99,8 +99,8 @@ app.delete('/api/courses/:id', (req,res)=>{
             //finds the index of the course that matches the ID and then splices the index (removes)
             var removedCourse = courses.find(c => c.id == req.params.id)
             console.log(courses.indexOf(removedCourse));
-            console.log(courses.splice(courses.indexOf(removedCourse)));
-            res.send(removedCourse +"<br>" + courses);
+            console.log(courses.splice(courses.indexOf(removedCourse),1));
+            res.send(courses);
         }
     }  
 
