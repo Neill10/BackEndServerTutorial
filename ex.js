@@ -38,9 +38,10 @@ app.post('/api/courses', (req,res) => {
     else{
         const course ={
             //we assign an ID and a name property
-            id: courses.length +1,
+            id: courses.length + 1,
             name: req.body.name
         }
+        
         //res.send(course);
         //YOU WRITE THE NEXT LINES OF code
         //next step: push it to the array
@@ -51,7 +52,6 @@ app.post('/api/courses', (req,res) => {
 });
   
 //HTTP PUT requests
-//The request id has to be equal to json request id.
 app.put('/api/courses/:id', (req,res)=>{
     //req.params.id is equal to the id of localhost:3000/api/courses/:id.
     //req.body.id is equal to the id provided in the JSON.
@@ -60,12 +60,14 @@ app.put('/api/courses/:id', (req,res)=>{
         res.status(404).send("The course with the given ID was not found");
     }
     else{
+        //The request id has to be equal to json request id. (personal)
         if(req.body.id != req.params.id){
             res.send("Request ID is not equal to JSON ID!")
         }
         else{
         //var previous = courses[req.body.id - 1].name;
         courses[req.body.id - 1].name = req.body.name;
+        /*
         //finds the specific course
         var selectedCourse = "Empty";
         for(course of courses){
@@ -73,6 +75,7 @@ app.put('/api/courses/:id', (req,res)=>{
                 selectedCourse = course;
             }
         }
+        */
         res.send(courses);
         //console.log("changed " + previous + " to " + req.body.name);   
         }
